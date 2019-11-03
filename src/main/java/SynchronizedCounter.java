@@ -1,29 +1,42 @@
+import java.util.concurrent.locks.ReentrantLock;
+
 public class SynchronizedCounter {
     private int c = 0;
+    private final ReentrantLock lock = new ReentrantLock();
 
-    public synchronized void increment() {
-        System.out.println(Thread.currentThread().getName() + " entered Increment Method");
-        c++;
+    public void increment() {
+        lock.lock();
         try {
-            Thread.sleep(1000L);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.out.println(Thread.currentThread().getName() + " entered Increment Method");
+            c++;
+            try {
+                Thread.sleep(1000L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(Thread.currentThread().getName() + " exited Increment Method");
+        }finally {
+            lock.unlock();
         }
-        System.out.println(Thread.currentThread().getName() + " exited Increment Method");
     }
 
-    public synchronized void decrement() {
-        System.out.println(Thread.currentThread().getName() + " entered Decrement Method");
-        c--;
-        try{
-            Thread.sleep(1000L);
-        } catch (InterruptedException e){
-            e.printStackTrace();
+    public void decrement() {
+        lock.lock();
+        try {
+            System.out.println(Thread.currentThread().getName() + " entered Decrement Method");
+            c--;
+            try {
+                Thread.sleep(1000L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(Thread.currentThread().getName() + " exited Decrement Method");
+        }finally {
+            lock.unlock();
         }
-        System.out.println(Thread.currentThread().getName() + " exited Decrement Method");
     }
 
-    public synchronized int value() {
+    public int value() {
         return c;
     }
 }

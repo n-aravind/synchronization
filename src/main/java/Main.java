@@ -1,9 +1,9 @@
 public class Main {
     public static void main(String[] args) {
-        SynchronizedCounter synchronizedCounter = new SynchronizedCounter();
         long startTime = System.currentTimeMillis();
         long endTime = startTime + 15000L;
 
+        SynchronizedCounter synchronizedCounter = new SynchronizedCounter();
 
         Thread t1 = new Thread() {
             @Override
